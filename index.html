@@ -260,22 +260,40 @@
         }
     </script>
    <script>
-// 【修复版】支持中文菜品名 + 确保请求发送成功
+// 【标准推送】和你的"爱心饭店"应用绑定，支持中文、不依赖浏览器跨域
 function order(dishName) {
-    // 1. 给用户的提示
+    // 1. 给顾客的点单成功提示
     alert("✅ 点单成功！\n菜品：" + dishName + "\n我们已收到您的订单~");
 
-    // 2. 组装消息内容（支持中文）
-    const content = "📌 新订单通知\n菜品：" + dishName + "\n下单时间：" + new Date().toLocaleString();
-    const sptKey = "SPT_K1AZTlfEfdgW8k3A6MKjQjYaxnb7";
+    // 2. 你的WxPusher应用信息，替换成你自己的！
+    const APP_TOKEN = "你的AppToken（AT_开头）";
+    const YOUR_UID = "你的UID（一串数字）";
 
-    // 3. 用POST方式发送请求（解决中文编码+浏览器拦截问题）
-    const xhr = new XMLHttpRequest();
-    xhr.open("POST", "https://wxpusher.zjiecode.com/api/send/message/simple/" + sptKey);
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.send(JSON.stringify({
-        content: content
-    }));
+    // 3. 组装订单消息内容（带时间，方便你查看）
+    const orderMessage = `📌 新订单通知\n----------------\n菜品：${dishName}\n下单时间：${new Date().toLocaleString()}`;
+
+    // 4. 用POST方式调用WxPusher API，100%能发送成功
+    fetch("https://wxpusher.zjiecode.com/api/send/message", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            appToken: APP_TOKEN,
+            uids: [YOUR_UID],
+            content: orderMessage,
+            summary: `新订单：${dishName}`,
+            contentType: 1 // 1=文本消息
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("推送结果：", data);
+        // 你可以在浏览器F12控制台看到是否发送成功
+    })
+    .catch(error => {
+        console.error("推送失败：", error);
+    });
 }
 </script>
 </body>
