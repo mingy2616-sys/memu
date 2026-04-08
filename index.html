@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>我的本地私密菜单</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body { 
+            font-family: "Microsoft YaHei", sans-serif; 
+            padding: 15px; 
+            background: #fff;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        h2 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        /* 分类标签样式 */
+        .category {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .cat-btn {
+            padding: 8px 12px;
+            border: 1px solid #007bff;
+            background: white;
+            color: #007bff;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .cat-btn.active {
+            background: #007bff;
+            color: white;
+        }
+
+        /* 菜品样式 */
+        .item { 
+            display: flex; 
+            border-bottom: 1px solid #eee; 
+            padding: 10px 0; 
+            align-items: center;
+        }
+        .item img { 
+            width: 80px; 
+            height: 80px; 
+            object-fit: cover;
+            border-radius: 8px; 
+            margin-right: 15px; 
+        }
+        .info { flex-grow: 1; }
+        .info div:first-child{
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .price { 
+            color: #f40; 
+            font-weight: bold; 
+            font-size: 18px;
+        }
+        .btn { 
+            background: #007bff; 
+            color: white; 
+            border: none; 
+            padding: 8px 12px; 
+            border-radius: 4px; 
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn:hover{
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h2>📖 今日菜单（分类版）</h2>
+
+    <!-- 分类按钮 -->
+    <div class="category">
+        <button class="cat-btn active" onclick="showCategory('all')">全部</button>
+        <button class="cat-btn" onclick="showCategory('stir')">炒菜类</button>
+        <button class="cat-btn" onclick="showCategory('stew')">炖菜类</button>
+        <button class="cat-btn" onclick="showCategory('soup')">汤品类</button>
+        <button class="cat-btn" onclick="showCategory('rice')">主食类</button>
+        <button class="cat-btn" onclick="showCategory('snack')">点心类</button>
+    </div>
+
+    <!-- 菜品列表 -->
+    <div id="app">
+
+        <!-- ===================== 炒菜类 ===================== -->
+        <div class="item" data-cat="stir">
+            <img src="./images/酸汤肥牛金针菇.jpeg">
+            <div class="info"><div>酸汤肥牛金针菇</div><div class="price">￥0</div></div>
+            <button class="btn" onclick="order('酸汤肥牛金针菇')">点单</button>
+        </div>
+        <div class="item" data-cat="stir">
+            <img src="./images/孜然洋葱炒羊肉.jpeg">
+            <div class="info"><div>孜然洋葱炒羊肉</div><div class="price">￥0</div></div>
+            <button class="btn" onclick="order('孜然洋葱炒羊肉')">点单</button>
+        </div>
+        <div class="item" data-cat="stir">
+            <img src="./images/孜然洋葱炒牛肉.jpeg">
+            <div class="info"><div>孜然洋葱炒牛肉</div><div class="price">￥0</div></div>
+            <button class="btn" onclick="order('孜然洋葱炒牛肉')">点单</button>
+        </div>
+        <div class="item" data-cat="stir">
+            <img src="./images/西红柿鸡蛋.jpeg">
+            <div class="info"><div>西红柿鸡蛋</div><div class="price">￥0</div></div>
+            <button class="btn" onclick="order('西红柿鸡蛋')">点单</button>
+        </div>
+        <div class="item" data-cat="stir">
+            <img src="./images/洋葱炒鸡蛋.jpeg">
+            <div class="info"><div>洋葱炒鸡蛋</div><div class="price">￥0</div></div>
+            <button class="btn" onclick="order('洋葱炒鸡蛋')">点单</button>
+        </div>
+        <div class="item" data-cat="stir">
+            <img src="./images/麻婆豆腐.jpeg">
+            <div class="info"><div>麻婆豆腐</div><div class="price">￥0</div></div>
+            <button class="btn" onclick="order('麻婆豆腐')">点单</button>
+        </div>
+        <div class="item" data-cat="stir">
+            <img src="./images/西葫芦虾米.jpeg">
+            <div class="info"><div>西葫芦虾米</div><div class="price">￥0</div></div>
+            <button class="btn" onclick="order('西葫芦虾米')">点单</button>
+        </div>
+        <div class="item" data-cat="stir">
+            <img src="./images/辣炒鸡胗.jpeg">
+            <div class="info"><div>辣炒鸡胗</div><div class="price">￥0</div></div>
+            <button class="btn" onclick="order('辣炒鸡胗')">点单</button>
+        </div>
+        <div class="item" data-cat="stir">
+            <img src="./images/农家一碗香.jpeg">
+            <div class="info"><div>农家一碗香</div><div class="price">￥0</div></div>
+            <button class="btn" onclick="order('农家一碗香')">点单</button>
+        </div>
+        <div class="item" data-cat="stir">
+            <img src="./images/尖椒豆皮.jpeg">
+            <div class="info"><div>尖椒豆皮</div><div class="price">￥0</div></div>
+            <button class="btn" onclick="order('尖椒豆皮')">点单</button>
+        </div>
+        <div class="item" data-cat="stir">
+            <img src="./images/肉末粉丝.jpeg">
+            <div class="info"><div>肉末粉丝</div><div class="price">￥0</div></div>
+            <button class="btn" onclick="order('肉末粉丝')">点单</button>
+        </div>
+        <div class="item" data-cat="stir">
+            <img src="./images/鸡腿菇炒肉.jpeg">
+            <div class="info"><div>鸡腿菇炒肉</div><div class="price">￥0</div></div>
+            <button class="btn" onclick="order('鸡腿菇炒肉')">点单</button>
+        </div>
+        <div class="item" data-cat="stir">
+            <img src="./images/豇豆肉末.jpeg">
+            <div class="info"><div>豇豆肉末</div><div class="price">￥0</div></div>
+            <button class="btn" onclick="order('豇豆肉末')">点单</button>
+        </div>
+
+        <!-- ===================== 炖菜类 ===================== -->
+        <div class="item" data-cat="stew">
+            <img src="./images/炖牛腩牛肋条.jpeg">
+            <div class="info"><div>炖牛腩/牛肋条</div><div class="price">￥0</div></div>
+            <button class="btn" onclick="order('炖牛腩/牛肋条')">点单</button>
+        </div>
+        <div class="item" data-cat="stew">
+            <img src="./images/猪肉炖粉条.jpeg">
+            <div class="info"><div>猪肉炖粉条</div><div class="price">￥0</div></div>
+            <button class="btn" onclick="order('猪肉炖粉条')">点单</button>
+        </div>
+        <div class="item" data-cat="stew">
+            <img src="./images/萝卜羊肉.jpeg">
+            <div class="info"><div>萝卜羊肉</div><div class="price">￥0</div></div>
+            <button class="btn" onclick="order('萝卜羊肉')">点单</button>
+        </div>
+
+        <!-- ===================== 汤品类 ===================== -->
+        <div class="item" data-cat="soup">
+            <img src="./images/玉米排骨汤.jpeg">
+            <div class="info"><div>玉米排骨汤</div><div class="price">￥0</div></div>
+            <button class="btn" onclick="order('玉米排骨汤')">点单</button>
+        </div>
+        <div class="item" data-cat="soup">
+            <img src="./images/水煮河虾.jpeg">
+            <div class="info"><div>水煮河虾</div><div class="price">￥0</div></div>
+            <button class="btn" onclick="order('水煮河虾')">点单</button>
+        </div>
+
+        <!-- ===================== 主食类 ===================== -->
+        <div class="item" data-cat="rice">
+            <img src="./images/蛋炒饭.jpeg">
+            <div class="info"><div>蛋炒饭</div><div class="price">￥0</div></div>
+            <button class="btn" onclick="order('蛋炒饭')">点单</button>
+        </div>
+        <div class="item" data-cat="rice">
+            <img src="./images/咖喱鸡块.jpeg">
+            <div class="info"><div>咖喱鸡块</div><div class="price">￥0</div></div>
+            <button class="btn" onclick="order('咖喱鸡块')">点单</button>
+        </div>
+        <div class="item" data-cat="rice">
+            <img src="./images/卤肉饭.jpeg">
+            <div class="info"><div>卤肉饭</div><div class="price">￥0</div></div>
+            <button class="btn" onclick="order('卤肉饭')">点单</button>
+        </div>
+
+        <!-- ===================== 点心/烤物 ===================== -->
+        <div class="item" data-cat="snack">
+            <img src="./images/烤鸡排.jpeg">
+            <div class="info"><div>烤鸡排</div><div class="price">￥0</div></div>
+            <button class="btn" onclick="order('烤鸡排')">点单</button>
+        </div>
+        <div class="item" data-cat="snack">
+            <img src="./images/烤鸡翅.jpeg">
+            <div class="info"><div>烤鸡翅</div><div class="price">￥0</div></div>
+            <button class="btn" onclick="order('烤鸡翅')">点单</button>
+        </div>
+        <div class="item" data-cat="snack">
+            <img src="./images/蛋挞.jpeg">
+            <div class="info"><div>蛋挞</div><div class="price">￥0</div></div>
+            <button class="btn" onclick="order('蛋挞')">点单</button>
+        </div>
+        <div class="item" data-cat="snack">
+            <img src="./images/汉堡.jpeg">
+            <div class="info"><div>汉堡</div><div class="price">￥0</div></div>
+            <button class="btn" onclick="order('汉堡')">点单</button>
+        </div>
+
+    </div>
+
+    <script>
+        // 点单功能
+        function order(name) {
+            alert('✅ 点单成功！\n菜品：' + name + '\n请直接告知老板即可~');
+        }
+
+        // 分类切换功能
+        function showCategory(cat) {
+            let items = document.querySelectorAll('.item');
+            let btns = document.querySelectorAll('.cat-btn');
+            
+            // 按钮高亮
+            btns.forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // 显示隐藏菜品
+            items.forEach(item => {
+                if(cat === 'all' || item.getAttribute('data-cat') === cat) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
