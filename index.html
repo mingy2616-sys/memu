@@ -79,6 +79,47 @@
         .btn:hover{
             background: #0056b3;
         }
+        /* 选中状态按钮 */
+        .btn.selected {
+            background: #28a745;
+        }
+
+        /* 已选菜品区域 */
+        .selected-area {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .selected-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .selected-list {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        /* 备注输入框 */
+        .remark-input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            resize: none;
+        }
+        .submit-btn {
+            background: #dc3545;
+            padding: 10px 20px;
+            font-size: 16px;
+            width: 100%;
+        }
+        .empty-tip {
+            color: #666;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -94,162 +135,172 @@
         <button class="cat-btn" onclick="showCategory('snack')">点心类</button>
     </div>
 
+    <!-- 已选菜品区域 -->
+    <div class="selected-area">
+        <div class="selected-title">🛒 已选菜品</div>
+        <div id="selectedList" class="selected-list">
+            <span class="empty-tip">暂无选中菜品</span>
+        </div>
+
+        <!-- 订单备注 -->
+        <textarea 
+            id="remark" 
+            class="remark-input" 
+            rows="2" 
+            placeholder="📝 可以在这里写备注（不吃辣、少盐、加急等）">
+        </textarea>
+
+        <button class="btn submit-btn" onclick="submitOrder()">✅ 确认提交订单</button>
+    </div>
+
     <!-- 菜品列表 -->
     <div id="app">
-
         <!-- ===================== 炒菜类 ===================== -->
         <div class="item" data-cat="stir">
             <img src="./images/酸汤肥牛金针菇.jpeg">
             <div class="info"><div>酸汤肥牛金针菇</div><div class="price">￥0</div></div>
-            <button class="btn" onclick="order('酸汤肥牛金针菇')">点单</button>
+            <button class="btn" onclick="toggleSelect(this, '酸汤肥牛金针菇')">选择</button>
         </div>
         <div class="item" data-cat="stir">
             <img src="./images/孜然洋葱炒羊肉.jpeg">
             <div class="info"><div>孜然洋葱炒羊肉</div><div class="price">￥0</div></div>
-            <button class="btn" onclick="order('孜然洋葱炒羊肉')">点单</button>
+            <button class="btn" onclick="toggleSelect(this, '孜然洋葱炒羊肉')">选择</button>
         </div>
         <div class="item" data-cat="stir">
             <img src="./images/孜然洋葱炒牛肉.jpeg">
             <div class="info"><div>孜然洋葱炒牛肉</div><div class="price">￥0</div></div>
-            <button class="btn" onclick="order('孜然洋葱炒牛肉')">点单</button>
+            <button class="btn" onclick="toggleSelect(this, '孜然洋葱炒牛肉')">选择</button>
         </div>
         <div class="item" data-cat="stir">
             <img src="./images/西红柿鸡蛋.jpeg">
             <div class="info"><div>西红柿鸡蛋</div><div class="price">￥0</div></div>
-            <button class="btn" onclick="order('西红柿鸡蛋')">点单</button>
+            <button class="btn" onclick="toggleSelect(this, '西红柿鸡蛋')">选择</button>
         </div>
         <div class="item" data-cat="stir">
             <img src="./images/洋葱炒鸡蛋.jpeg">
             <div class="info"><div>洋葱炒鸡蛋</div><div class="price">￥0</div></div>
-            <button class="btn" onclick="order('洋葱炒鸡蛋')">点单</button>
+            <button class="btn" onclick="toggleSelect(this, '洋葱炒鸡蛋')">选择</button>
         </div>
         <div class="item" data-cat="stir">
             <img src="./images/麻婆豆腐.jpeg">
             <div class="info"><div>麻婆豆腐</div><div class="price">￥0</div></div>
-            <button class="btn" onclick="order('麻婆豆腐')">点单</button>
+            <button class="btn" onclick="toggleSelect(this, '麻婆豆腐')">选择</button>
         </div>
         <div class="item" data-cat="stir">
             <img src="./images/西葫芦虾米.jpeg">
             <div class="info"><div>西葫芦虾米</div><div class="price">￥0</div></div>
-            <button class="btn" onclick="order('西葫芦虾米')">点单</button>
+            <button class="btn" onclick="toggleSelect(this, '西葫芦虾米')">选择</button>
         </div>
         <div class="item" data-cat="stir">
             <img src="./images/辣炒鸡胗.jpeg">
             <div class="info"><div>辣炒鸡胗</div><div class="price">￥0</div></div>
-            <button class="btn" onclick="order('辣炒鸡胗')">点单</button>
+            <button class="btn" onclick="toggleSelect(this, '辣炒鸡胗')">选择</button>
         </div>
         <div class="item" data-cat="stir">
             <img src="./images/农家一碗香.jpeg">
             <div class="info"><div>农家一碗香</div><div class="price">￥0</div></div>
-            <button class="btn" onclick="order('农家一碗香')">点单</button>
+            <button class="btn" onclick="toggleSelect(this, '农家一碗香')">选择</button>
         </div>
         <div class="item" data-cat="stir">
             <img src="./images/尖椒豆皮.jpeg">
             <div class="info"><div>尖椒豆皮</div><div class="price">￥0</div></div>
-            <button class="btn" onclick="order('尖椒豆皮')">点单</button>
+            <button class="btn" onclick="toggleSelect(this, '尖椒豆皮')">选择</button>
         </div>
         <div class="item" data-cat="stir">
             <img src="./images/肉末粉丝.jpeg">
             <div class="info"><div>肉末粉丝</div><div class="price">￥0</div></div>
-            <button class="btn" onclick="order('肉末粉丝')">点单</button>
+            <button class="btn" onclick="toggleSelect(this, '肉末粉丝')">选择</button>
         </div>
         <div class="item" data-cat="stir">
             <img src="./images/鸡腿菇炒肉.jpeg">
             <div class="info"><div>鸡腿菇炒肉</div><div class="price">￥0</div></div>
-            <button class="btn" onclick="order('鸡腿菇炒肉')">点单</button>
+            <button class="btn" onclick="toggleSelect(this, '鸡腿菇炒肉')">选择</button>
         </div>
         <div class="item" data-cat="stir">
             <img src="./images/豇豆肉末.jpeg">
             <div class="info"><div>豇豆肉末</div><div class="price">￥0</div></div>
-            <button class="btn" onclick="order('豇豆肉末')">点单</button>
+            <button class="btn" onclick="toggleSelect(this, '豇豆肉末')">选择</button>
         </div>
 
         <!-- ===================== 炖菜类 ===================== -->
         <div class="item" data-cat="stew">
             <img src="./images/炖牛腩牛肋条.jpeg">
             <div class="info"><div>炖牛腩/牛肋条</div><div class="price">￥0</div></div>
-            <button class="btn" onclick="order('炖牛腩/牛肋条')">点单</button>
+            <button class="btn" onclick="toggleSelect(this, '炖牛腩/牛肋条')">选择</button>
         </div>
         <div class="item" data-cat="stew">
             <img src="./images/猪肉炖粉条.jpeg">
             <div class="info"><div>猪肉炖粉条</div><div class="price">￥0</div></div>
-            <button class="btn" onclick="order('猪肉炖粉条')">点单</button>
+            <button class="btn" onclick="toggleSelect(this, '猪肉炖粉条')">选择</button>
         </div>
         <div class="item" data-cat="stew">
             <img src="./images/萝卜羊肉.jpeg">
             <div class="info"><div>萝卜羊肉</div><div class="price">￥0</div></div>
-            <button class="btn" onclick="order('萝卜羊肉')">点单</button>
+            <button class="btn" onclick="toggleSelect(this, '萝卜羊肉')">选择</button>
         </div>
         <div class="item" data-cat="stew">
             <img src="./images/咖喱鸡块.jpeg">
             <div class="info"><div>咖喱鸡块</div><div class="price">￥0</div></div>
-            <button class="btn" onclick="order('咖喱鸡块')">点单</button>
+            <button class="btn" onclick="toggleSelect(this, '咖喱鸡块')">选择</button>
         </div>
         <div class="item" data-cat="stew">
             <img src="./images/卤肉饭.jpeg">
             <div class="info"><div>卤肉饭</div><div class="price">￥0</div></div>
-            <button class="btn" onclick="order('卤肉饭')">点单</button>
+            <button class="btn" onclick="toggleSelect(this, '卤肉饭')">选择</button>
         </div>
 
         <!-- ===================== 汤品类 ===================== -->
         <div class="item" data-cat="soup">
             <img src="./images/玉米排骨汤.jpeg">
             <div class="info"><div>玉米排骨汤</div><div class="price">￥0</div></div>
-            <button class="btn" onclick="order('玉米排骨汤')">点单</button>
+            <button class="btn" onclick="toggleSelect(this, '玉米排骨汤')">选择</button>
         </div>
         <div class="item" data-cat="soup">
             <img src="./images/水煮河虾.jpeg">
             <div class="info"><div>水煮河虾</div><div class="price">￥0</div></div>
-            <button class="btn" onclick="order('水煮河虾')">点单</button>
+            <button class="btn" onclick="toggleSelect(this, '水煮河虾')">选择</button>
         </div>
 
         <!-- ===================== 主食类 ===================== -->
         <div class="item" data-cat="rice">
             <img src="./images/蛋炒饭.jpeg">
             <div class="info"><div>蛋炒饭</div><div class="price">￥0</div></div>
-            <button class="btn" onclick="order('蛋炒饭')">点单</button>
+            <button class="btn" onclick="toggleSelect(this, '蛋炒饭')">选择</button>
         </div>
 
         <!-- ===================== 点心/烤物 ===================== -->
         <div class="item" data-cat="snack">
             <img src="./images/烤鸡排.jpeg">
             <div class="info"><div>烤鸡排</div><div class="price">￥0</div></div>
-            <button class="btn" onclick="order('烤鸡排')">点单</button>
+            <button class="btn" onclick="toggleSelect(this, '烤鸡排')">选择</button>
         </div>
         <div class="item" data-cat="snack">
             <img src="./images/烤鸡翅.jpeg">
             <div class="info"><div>烤鸡翅</div><div class="price">￥0</div></div>
-            <button class="btn" onclick="order('烤鸡翅')">点单</button>
+            <button class="btn" onclick="toggleSelect(this, '烤鸡翅')">选择</button>
         </div>
         <div class="item" data-cat="snack">
             <img src="./images/蛋挞.jpeg">
             <div class="info"><div>蛋挞</div><div class="price">￥0</div></div>
-            <button class="btn" onclick="order('蛋挞')">点单</button>
+            <button class="btn" onclick="toggleSelect(this, '蛋挞')">选择</button>
         </div>
         <div class="item" data-cat="snack">
             <img src="./images/汉堡.jpeg">
             <div class="info"><div>汉堡</div><div class="price">￥0</div></div>
-            <button class="btn" onclick="order('汉堡')">点单</button>
+            <button class="btn" onclick="toggleSelect(this, '汉堡')">选择</button>
         </div>
-
     </div>
 
     <script>
-        // 点单功能
-        function order(name) {
-            alert('✅ 点单成功！\n菜品：' + name + '\n请直接告知老板即可~');
-        }
+        // 存储选中的菜品
+        let selectedDishes = [];
 
-        // 分类切换功能
+        // 分类切换
         function showCategory(cat) {
             let items = document.querySelectorAll('.item');
             let btns = document.querySelectorAll('.cat-btn');
-            
-            // 按钮高亮
             btns.forEach(b => b.classList.remove('active'));
             event.target.classList.add('active');
-            
-            // 显示隐藏菜品
             items.forEach(item => {
                 if(cat === 'all' || item.getAttribute('data-cat') === cat) {
                     item.style.display = 'flex';
@@ -258,43 +309,91 @@
                 }
             });
         }
+
+        // 选择/取消菜品
+        function toggleSelect(btn, name) {
+            const index = selectedDishes.indexOf(name);
+            if (index === -1) {
+                selectedDishes.push(name);
+                btn.classList.add('selected');
+                btn.textContent = '已选';
+            } else {
+                selectedDishes.splice(index, 1);
+                btn.classList.remove('selected');
+                btn.textContent = '选择';
+            }
+            updateSelectedList();
+        }
+
+        // 更新已选列表
+        function updateSelectedList() {
+            const listEl = document.getElementById('selectedList');
+            if (selectedDishes.length === 0) {
+                listEl.innerHTML = '<span class="empty-tip">暂无选中菜品</span>';
+                return;
+            }
+            let html = '';
+            selectedDishes.forEach((dish, i) => {
+                html += `${i+1}. ${dish}<br>`;
+            });
+            listEl.innerHTML = html;
+        }
+
+        // 提交订单（带备注）
+        function submitOrder() {
+            if (selectedDishes.length === 0) {
+                alert('❌ 请先选择菜品！');
+                return;
+            }
+
+            // 获取备注内容
+            const remark = document.getElementById('remark').value.trim() || '无备注';
+            const dishText = selectedDishes.join('、');
+            const orderTime = new Date().toLocaleString();
+
+            // 提示
+            alert(`✅ 订单提交成功！\n菜品：${dishText}\n备注：${remark}\n时间：${orderTime}`);
+
+            // 推送信息
+            const APP_TOKEN = "AT_Fpatlwbz98lWn5ZgFvYsdHo4kELJPYuY";
+            const YOUR_UID = "UID_CJn9BAbZE6HaOfwDHO7sQ0QMjrEi";
+
+            // 推送内容（包含备注）
+            const orderMessage = `
+📌 新订单通知
+----------------
+菜品：${dishText}
+数量：${selectedDishes.length} 个
+备注：${remark}
+下单时间：${orderTime}
+            `.trim();
+
+            // 发送
+            fetch("https://wxpusher.zjiecode.com/api/send/message", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    appToken: APP_TOKEN,
+                    uids: [YOUR_UID],
+                    content: orderMessage,
+                    summary: `订单：${dishText}`,
+                    contentType: 1
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                console.log("推送成功", data);
+                // 清空
+                selectedDishes = [];
+                document.getElementById('remark').value = '';
+                document.querySelectorAll('.btn.selected').forEach(btn => {
+                    btn.classList.remove('selected');
+                    btn.textContent = '选择';
+                });
+                updateSelectedList();
+            })
+            .catch(err => console.error("推送失败", err));
+        }
     </script>
-   <script>
-// 【标准推送】和你的"爱心饭店"应用绑定，支持中文、不依赖浏览器跨域
-function order(dishName) {
-    // 1. 给顾客的点单成功提示
-    alert("✅ 点单成功！\n菜品：" + dishName + "\n我们已收到您的订单~");
-
-    // 2. 你的WxPusher应用信息，替换成你自己的！
-    const APP_TOKEN = "AT_Fpatlwbz98lWn5ZgFvYsdHo4kELJPYuY";
-    const YOUR_UID = "UID_CJn9BAbZE6HaOfwDHO7sQ0QMjrEi";
-
-    // 3. 组装订单消息内容（带时间，方便你查看）
-    const orderMessage = `📌 新订单通知\n----------------\n菜品：${dishName}\n下单时间：${new Date().toLocaleString()}`;
-
-    // 4. 用POST方式调用WxPusher API，100%能发送成功
-    fetch("https://wxpusher.zjiecode.com/api/send/message", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            appToken: APP_TOKEN,
-            uids: [YOUR_UID],
-            content: orderMessage,
-            summary: `新订单：${dishName}`,
-            contentType: 1 // 1=文本消息
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log("推送结果：", data);
-        // 你可以在浏览器F12控制台看到是否发送成功
-    })
-    .catch(error => {
-        console.error("推送失败：", error);
-    });
-}
-</script>
 </body>
 </html>
